@@ -11,7 +11,7 @@ export default class Standard extends Component {
     passwordConfirm: "",
     passwordConfirmValid: false,
     formValid: false,
-    errorMessage: {},
+    errorMsh: {},
   };
 
   handleChange = (e) => {
@@ -19,7 +19,7 @@ export default class Standard extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   render() {
     return (
       <div>
@@ -32,7 +32,6 @@ export default class Standard extends Component {
               type="text"
               className="form-control"
               name="username"
-              placeholder="username"
               onChange={this.handleChange}
             />
           </div>
@@ -42,8 +41,9 @@ export default class Standard extends Component {
             <input
               type="text"
               className="form-control"
-              id="email"
-              value={this.state.email}
+              
+              name='email'
+              onChange={this.handleChange}
             />
           </div>
           {/*Password*/}
@@ -52,8 +52,9 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              id="password"
-              value={this.state.password}
+              
+              name='password'
+              onChange={this.handleChange}
             />
           </div>
           {/*Confirm Password */}
@@ -62,12 +63,16 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              id="confirmPassword"
-              value={this.state.passwordConfirm}
+              name='passwordConfirm'
+              onChange={this.handleChange}
             />
           </div>
         </form>
-      </div>
+        <h5>Username: {this.state.username} </h5>
+        <h5>Email: {this.state.email} </h5>
+        <h5>Password: {this.state.password} </h5>
+        <h5>Confirm Password: {this.state.passwordConfirm} </h5>
+        </div>
     );
   }
 }
