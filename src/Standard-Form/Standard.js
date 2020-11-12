@@ -20,7 +20,7 @@ export default class Standard extends Component {
     });
   };
 
-  //validate the username
+  //validate the Email
 
   validateEmail = () => {
     const { email } = this.state;
@@ -32,6 +32,32 @@ export default class Standard extends Component {
       errorMsg.email = "Invalid Email format";
     }
     this.setState({ emailValid, errorMsg });
+  };
+
+  //Password Validation
+  validatePassword = () => {
+    const { password } = this.state;
+    let passwordValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (password.length < 8) {
+      passwordValid = false;
+      errorMsg.password = "Invalid  Password";
+    }
+    this.setState({ passwordValid, errorMsg });
+  };
+
+  //confirm password
+  validateConfirmPassword = () => {
+    const { password, passwordConfirm } = this.state;
+    let passwordConfirmValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (password === !passwordConfirm) {
+      passwordConfirmValid = false;
+      errorMsg.password = "Invalid Password Does not match";
+    }
+    this.setState({ passwordConfirmValid, errorMsg });
   };
 
   render() {
