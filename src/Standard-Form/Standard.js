@@ -35,13 +35,13 @@ export default class Standard extends Component {
     const {
       emailValid,
       userNamevalid,
-      passwordConfirmValid,
+      confirmPasswordValid,
       passwordValid,
     } = this.state;
 
     this.setState({
       formValid:
-        emailValid && userNamevalid && passwordConfirmValid && passwordValid,
+        emailValid && userNamevalid && confirmPasswordValid && passwordValid,
     });
   };
 
@@ -98,8 +98,15 @@ export default class Standard extends Component {
     this.setState({ confirmPasswordValid, errorMsg }, this.validateForm);
   };
 
+  // Reset Form
+  resetForm = () => {
+    this.setState({
+      ...this.state
+    })
+  }
+
   render() {
-    console.log(this.state)
+    console.log(this.state);
     return (
       <div>
         <h5>Standard-Form</h5>
@@ -110,9 +117,14 @@ export default class Standard extends Component {
             <input
               type="text"
               className="form-control"
-              id='username'
+              id="username"
               value={this.state.username}
-              onChange={(e) => this.setState({username:e.target.value},this.validateUserName)}
+              onChange={(e) =>
+                this.setState(
+                  { username: e.target.value },
+                  this.validateUserName
+                )
+              }
             />
             <span>
               <ValidationMessage
@@ -127,9 +139,11 @@ export default class Standard extends Component {
             <input
               type="text"
               className="form-control"
-              id='email'
+              id="email"
               value={this.state.email}
-              onChange={(e) => this.setState({email:e.target.value},this.validateEmail)}
+              onChange={(e) =>
+                this.setState({ email: e.target.value }, this.validateEmail)
+              }
             />
             <span>
               <ValidationMessage
@@ -144,16 +158,21 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              id='password'
+              id="password"
               value={this.state.password}
-              onChange={(e) => this.setState({password:e.target.value},this.validatePassword)}
+              onChange={(e) =>
+                this.setState(
+                  { password: e.target.value },
+                  this.validatePassword
+                )
+              }
             />
             <span>
-            <ValidationMessage
-              valid={this.state.passwordValid}
-              message={this.state.errorMsg.password}
-            />
-          </span>
+              <ValidationMessage
+                valid={this.state.passwordValid}
+                message={this.state.errorMsg.password}
+              />
+            </span>
           </div>
           {/*Confirm Password */}
           <div className="form-group">
@@ -161,17 +180,37 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              id='confirmPassword'
+              id="confirmPassword"
               value={this.state.confirmPassword}
-              onChange={(e) => this.setState({confirmPassword:e.target.value},this.validateConfirmPassword)}
+              onChange={(e) =>
+                this.setState(
+                  { confirmPassword: e.target.value },
+                  this.validateConfirmPassword
+                )
+              }
             />
+            <span>
+              <ValidationMessage
+                valid={this.state.confirmPasswordValid}
+                message={this.state.errorMsg.confirmPassword}
+              />
+            </span>
           </div>
-          <span>
-          <ValidationMessage
-            valid={this.state.confirmPasswordValid}
-            message={this.state.errorMsg.confirmPassword}
-          />
-        </span>
+          <div className="btn-group">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={!this.state.formValid}
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={(this.resetForm = this.resetForm.bind(this))}
+            >
+              Reset
+            </button>
+          </div>
         </form>
         <h5>Username: {this.state.username} </h5>
         <h5>Email: {this.state.email} </h5>
