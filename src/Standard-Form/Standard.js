@@ -1,5 +1,16 @@
 import React, { Component } from "react";
 
+function ValidationMessage(props) {
+  if (!props.valid) {
+    return (
+      <div className="alert-danger" role="alert">
+        {props.message}
+      </div>
+    );
+  }
+  return null;
+}
+
 export default class Standard extends Component {
   state = {
     username: "",
@@ -8,8 +19,8 @@ export default class Standard extends Component {
     emailValid: false,
     password: "",
     passwordValid: false,
-    passwordConfirm: "",
-    passwordConfirmValid: false,
+    confirmPassword: "",
+    confirmPasswordValid: false,
     formValid: false,
     errorMsg: {},
   };
@@ -37,14 +48,14 @@ export default class Standard extends Component {
   //Validate userName
   validateUserName = () => {
     const { username } = this.state;
-    let usernameValid = true;
+    let userNamevalid = true;
     let errorMsg = { ...this.state.errorMsg };
 
     if (username.length < 6 || username.length > 15) {
-      usernameValid = false;
-      errorMsg.email = "Username should be between 6 and 15 characters";
+      userNamevalid = false;
+      errorMsg.username = "Username should be between 6 and 15 characters";
     }
-    this.setState({ usernameValid, errorMsg }, this.validateForm);
+    this.setState({ userNamevalid, errorMsg }, this.validateForm);
   };
 
   //validate the Email
@@ -76,18 +87,19 @@ export default class Standard extends Component {
 
   //confirm password
   validateConfirmPassword = () => {
-    const { password, passwordConfirm } = this.state;
-    let passwordConfirmValid = true;
+    const { password, confirmPassword } = this.state;
+    let confirmPasswordValid = true;
     let errorMsg = { ...this.state.errorMsg };
 
-    if (password === !passwordConfirm) {
-      passwordConfirmValid = false;
-      errorMsg.password = "Invalid Password Does not match";
+    if (password === !confirmPassword) {
+      confirmPasswordValid = false;
+      errorMsg.confirmPassword = "Invalid Password Does not match";
     }
-    this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
+    this.setState({ confirmPasswordValid, errorMsg }, this.validateForm);
   };
 
   render() {
+    console.log(this.state)
     return (
       <div>
         <h5>Standard-Form</h5>
@@ -98,10 +110,16 @@ export default class Standard extends Component {
             <input
               type="text"
               className="form-control"
-              name="username"
-              onChange={this.handleChange}
+              id='username'
+              value={this.state.username}
+              onChange={(e) => this.setState({username:e.target.value},this.validateUserName)}
             />
-            <span></span>
+            <span>
+              <ValidationMessage
+                valid={this.state.usernameValid}
+                message={this.state.errorMsg.username}
+              />
+            </span>
           </div>
           {/* Email */}
           <div className="form-group">
@@ -109,9 +127,16 @@ export default class Standard extends Component {
             <input
               type="text"
               className="form-control"
-              name="email"
-              onChange={this.handleChange}
+              id='email'
+              value={this.state.email}
+              onChange={(e) => this.setState({email:e.target.value},this.validateEmail)}
             />
+            <span>
+              <ValidationMessage
+                valid={this.state.emailValid}
+                message={this.state.errorMsg.email}
+              />
+            </span>
           </div>
           {/*Password*/}
           <div className="form-group">
@@ -119,9 +144,16 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              name="password"
-              onChange={this.handleChange}
+              id='password'
+              value={this.state.password}
+              onChange={(e) => this.setState({password:e.target.value},this.validatePassword)}
             />
+            <span>
+            <ValidationMessage
+              valid={this.state.passwordValid}
+              message={this.state.errorMsg.password}
+            />
+          </span>
           </div>
           {/*Confirm Password */}
           <div className="form-group">
@@ -129,15 +161,22 @@ export default class Standard extends Component {
             <input
               type="password"
               className="form-control"
-              name="passwordConfirm"
-              onChange={this.handleChange}
+              id='confirmPassword'
+              value={this.state.confirmPassword}
+              onChange={(e) => this.setState({confirmPassword:e.target.value},this.validateConfirmPassword)}
             />
           </div>
+          <span>
+          <ValidationMessage
+            valid={this.state.confirmPasswordValid}
+            message={this.state.errorMsg.confirmPassword}
+          />
+        </span>
         </form>
         <h5>Username: {this.state.username} </h5>
         <h5>Email: {this.state.email} </h5>
         <h5>Password: {this.state.password} </h5>
-        <h5>Confirm Password: {this.state.passwordConfirm} </h5>
+        <h5>Confirm Password: {this.state.confirmPassword} </h5>
       </div>
     );
   }
