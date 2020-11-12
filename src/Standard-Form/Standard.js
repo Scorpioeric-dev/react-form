@@ -19,6 +19,33 @@ export default class Standard extends Component {
       [e.target.name]: e.target.value,
     });
   };
+  //Validate Form
+  validateForm = () => {
+    const {
+      emailValid,
+      userNamevalid,
+      passwordConfirmValid,
+      passwordValid,
+    } = this.state;
+
+    this.setState({
+      formValid:
+        emailValid && userNamevalid && passwordConfirmValid && passwordValid,
+    });
+  };
+
+  //Validate userName
+  validateUserName = () => {
+    const { username } = this.state;
+    let usernameValid = true;
+    let errorMsg = { ...this.state.errorMsg };
+
+    if (username.length < 6 || username.length > 15) {
+      usernameValid = false;
+      errorMsg.email = "Username should be between 6 and 15 characters";
+    }
+    this.setState({ usernameValid, errorMsg }, this.validateForm);
+  };
 
   //validate the Email
 
@@ -31,7 +58,7 @@ export default class Standard extends Component {
       emailValid = false;
       errorMsg.email = "Invalid Email format";
     }
-    this.setState({ emailValid, errorMsg });
+    this.setState({ emailValid, errorMsg }, this.validateForm);
   };
 
   //Password Validation
@@ -44,7 +71,7 @@ export default class Standard extends Component {
       passwordValid = false;
       errorMsg.password = "Invalid  Password";
     }
-    this.setState({ passwordValid, errorMsg });
+    this.setState({ passwordValid, errorMsg }, this.validateForm);
   };
 
   //confirm password
@@ -57,7 +84,7 @@ export default class Standard extends Component {
       passwordConfirmValid = false;
       errorMsg.password = "Invalid Password Does not match";
     }
-    this.setState({ passwordConfirmValid, errorMsg });
+    this.setState({ passwordConfirmValid, errorMsg }, this.validateForm);
   };
 
   render() {
